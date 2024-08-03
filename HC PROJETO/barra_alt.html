@@ -1,0 +1,156 @@
+<html><head><base href="#"><title>Sistema com Botão de Sair</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+.header {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #45a049;
+}
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #d32f2f;
+}
+.content {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 300px;
+  border-radius: 5px;
+  text-align: center;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+    <button id="logoutBtn" class="btn btn-danger">Sair</button>
+  </div>
+</div>
+
+<div class="content">
+  
+</div>
+
+<div id="logoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Confirmação</h2>
+    <p>Tem certeza que deseja sair do sistema?</p>
+    <button id="confirmLogout" class="btn btn-danger">Confirmar</button>
+    <button id="cancelLogout" class="btn btn-primary">Cancelar</button>
+  </div>
+</div>
+
+<script>
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutModal = document.getElementById('logoutModal');
+const closeModal = document.getElementsByClassName('close')[0];
+const confirmLogout = document.getElementById('confirmLogout');
+const cancelLogout = document.getElementById('cancelLogout');
+
+logoutBtn.onclick = function() {
+  logoutModal.style.display = "block";
+}
+
+closeModal.onclick = function() {
+  logoutModal.style.display = "none";
+}
+
+cancelLogout.onclick = function() {
+  logoutModal.style.display = "none";
+}
+
+confirmLogout.onclick = function() {
+  // Aqui você colocaria a lógica real de logout
+  alert("Logout realizado com sucesso!");
+  window.location.href = "#"; // Redireciona para a página de login
+}
+
+window.onclick = function(event) {
+  if (event.target == logoutModal) {
+    logoutModal.style.display = "none";
+  }
+}
+
+// Simulação de animação de logout
+function simulateLogout() {
+  document.body.style.opacity = '0';
+  setTimeout(() => {
+    document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 24px;">Saindo do sistema...</div>';
+    document.body.style.opacity = '1';
+  }, 1000);
+}
+
+// Adicionando animação ao confirmar logout
+confirmLogout.addEventListener('click', (e) => {
+  e.preventDefault();
+  simulateLogout();
+  setTimeout(() => {
+    window.location.href = "#";
+  }, 3000);
+});
+</script>
+</body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div class="wrapper">
+    <center><div class="input-group">
+      <a href="https://ibb.co/wBQwTCQ"><img src="https://i.ibb.co/wBQwTCQ/fa-a-seu-pedido-1200-x-899-px.png" alt="fa-a-seu-pedido-1200-x-899-px" border="0"></a>
+     </div></center>
+
+     
+    <form action="">
+      <h1>Levi HC Security</h1>
+
+     
+
+      <div class="input-box">
+      <input type="text" placeholder="Login" id="login">
+      </div>
+      <div class="input-box">
+      <input type="password" placeholder="Senha" id="senha">
+      </div>
+      <input type="submit" class="btn" onclick="logar(); return false">
+
+      
+  </form>
+    </div>
+    </form>
+  </div>
+</body>
+
+<script>
+
+
+  function logar(){
+
+      var login = document.getElementById('login').value;
+      var senha = document.getElementById('senha').value;
+      
+  
+
+      if(login == "admin" && senha == "admin"){
+          alert('Sucesso!');
+          location.href = "opcao.html";
+      }else{
+          alert('Usuario ou senha incorretos :(');
+          
+      }
+      
+
+  }
+
+
+</script>
+</html>

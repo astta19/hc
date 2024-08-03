@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escolha o seu Destino</title>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #1e458d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.versao{
+   position: fixed;
+   top: 50px;
+   right: 0;
+   width: 150px;
+   height: 50px;
+   animation: anima 10s linear infinite;
+   
+}
+
+
+
+@keyframes anima{
+   from {right: 0}
+   to {right: 100%}
+}
+
+.login-container {
+  background: #bdc3c7;
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    
+   
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.box-blue {
+       
+}
+
+h1 {
+  color: #509f56;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: #3498db;
+}
+
+label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 16px;
+  color: #777;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  top: -20px;
+  font-size: 12px;
+  color: #3498db;
+}
+
+
+button:active {
+  transform: scale(0.98);
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating-element {
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+select {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-family: monospace;
+        outline: 0;
+        background: #ffff;
+        color: #130505;
+        border: 1px solid rgb(2, 0, 1);
+        padding: 4px;
+        border-radius: 9px;
+        text-align: center;
+      }
+
+.circle-1 { top: -25px; left: -25px; }
+.circle-2 { bottom: -25px; right: -25px; }
+
+.nav-buttons {
+  
+  gap: 10px;
+}
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #45a049;
+}
+.btn-danger {
+  background-color: #1e458d;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #afc7a9;
+}
+.content {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 300px;
+  border-radius: 5px;
+  text-align: center;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.header {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+</style>
+
+</head>
+
+
+<body>
+<div class="login-container">
+  <div class="floating-element circle circle-1"></div>
+  <div class="floating-element circle circle-2"></div>
+  
+ 
+
+  <form id="loginForm">
+    <center><div class="input-group">
+      <a href="https://ibb.co/R0ssgJB"><img src="https://i.ibb.co/R0ssgJB/fa-a-seu-pedido-1200-x-899-px-2.png" alt="fa-a-seu-pedido-1200-x-899-px-2" border="0"></a>
+    </center>
+    <div class="input-group">
+    </div>
+   <div class="box-blue">
+    <div class="versao" type="versao">versão v1.01.01</div>
+      <select id="link">
+        <option value="" selected>Escolha o destino</option>
+        <option value="http://127.0.0.1:5500/cadastro_emp/cadastro_emp.html">Cadastro de Funcionário</option>
+        <option value="http://127.0.0.1:5500/baixa_selo/baixa_selo.html">Baixa de Selo</option>
+        <option value="http://127.0.0.1:5500/baixa_de_crach%C3%A1/baixa_crach%C3%A1.html">Baixa de Cracha</option>
+        <option value="http://127.0.0.1:5500/oc/oc/sistema_ocorrencia.html">Relatório Supervisão - CCO</option>
+        <option value="http://127.0.0.1:5500/relatorio_vigilante/vigilante.html">Relatório de Vigilante - Ronda</option>
+        <option value="http://127.0.0.1:5500/ordem.html">Ordem de Serviço - Técnico</option>
+        </select>
+   </div>
+
+   
+  </form>
+ 
+  <div id="logoutModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Confirmação</h2>
+      <p>Tem certeza que deseja sair do sistema?</p>
+      <button id="confirmLogout" class="btn btn-danger">Confirmar</button>
+      <button id="cancelLogout" class="btn btn-primary">Cancelar</button>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button id="logoutBtn" class="btn btn-danger">Sair</button>
+  </div>
+      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      
+      <script>
+      $(document).ready(function(){
+      
+         $('#link').on('change', function () {
+              var url = $(this).val(); 
+              if (url) { 
+                  window.open(url, '_blank');
+               }
+               return false;
+             });
+          });
+      </script>
+
+    </select>
+
+
+
+
+    
+
+
+<script>
+ $(document).ready(function(){
+
+    $('#link').on('change', function () {
+         var url = $(this).val(); 
+         if (url) { 
+             window.open(url, '_blank');
+          }
+          return false;
+        });
+     });
+</script>
+    
+
+      </div>
+
+  </form>
+  <script>
+<input type="button" name="btn-sair" value="Sair" onclick="javascript:window.close()">
+
+  </script>
+
+  <script>
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutModal = document.getElementById('logoutModal');
+const closeModal = document.getElementsByClassName('close')[0];
+const confirmLogout = document.getElementById('confirmLogout');
+const cancelLogout = document.getElementById('cancelLogout');
+
+logoutBtn.onclick = function() {
+  logoutModal.style.display = "block";
+}
+
+closeModal.onclick = function() {
+  logoutModal.style.display = "none";
+}
+
+cancelLogout.onclick = function() {
+  logoutModal.style.display = "none";
+}
+
+confirmLogout.onclick = function() {
+  // Aqui você colocaria a lógica real de logout
+  alert("Logout realizado com sucesso!");
+  window.location.href = "#"; // Redireciona para a página de login
+}
+
+window.onclick = function(event) {
+  if (event.target == logoutModal) {
+    logoutModal.style.display = "none";
+  }
+}
+
+// Simulação de animação de logout
+function simulateLogout() {
+  document.body.style.opacity = '0';
+  setTimeout(() => {
+    document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 24px;">Saindo do sistema...</div>';
+    document.body.style.opacity = '1';
+  }, 1000);
+}
+
+// Adicionando animação ao confirmar logout
+confirmLogout.addEventListener('click', (e) => {
+  e.preventDefault();
+  simulateLogout();
+  setTimeout(() => {
+    window.location.href = "http://127.0.0.1:5500/tela_e/tela_/"; // tela de redirecionamento
+  }, 3000);
+});
+</script>
+
+
+</div>
+</body></html>
+
+

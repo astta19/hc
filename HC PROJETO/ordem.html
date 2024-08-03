@@ -1,0 +1,294 @@
+<html><head><base href="#"><title>Sistema de Gerenciamento de Ordens de Serviço</title>
+<style>
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+header {
+  background-color: #3498db;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+nav {
+  background-color: #2980b9;
+  padding: 10px 0;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+nav ul li {
+  margin: 0 10px;
+}
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.content {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-top: 20px;
+  padding: 20px;
+}
+h1, h2 {
+  color: #2c3e50;
+}
+form {
+  display: grid;
+  gap: 15px;
+}
+label {
+  font-weight: bold;
+}
+input[type="text"], input[type="date"], input[type="email"], textarea, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:hover {
+  background-color: #2980b9;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Sistema de Gerenciamento de Ordens de Serviço</h1>
+</header>
+<nav>
+  <ul>
+    <li><a href="#" id="navCreate">Criar OS</a></li>
+    <li><a href="#" id="navList">Listar OS</a></li>
+    <li><a href="#" id="navReport">Relatórios</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <div id="createOS" class="content">
+    <h2>Criar Nova Ordem de Serviço</h2>
+    <form id="osForm">
+      <label for="clientName">Nome do Cliente:</label>
+      <input type="text" id="clientName" required>
+      
+      <label for="clientEmail">E-mail do Cliente:</label>
+      <input type="email" id="clientEmail" required>
+      
+      <label for="clientPhone">Telefone do Cliente:</label>
+      <input type="text" id="clientPhone" required>
+      
+      <label for="serviceType">Tipo de Serviço:</label>
+      <select id="serviceType" required>
+        <option value="">Selecione o tipo de serviço</option>
+        <option value="maintenance">Manutenção</option>
+        <option value="installation">Instalação</option>
+        <option value="repair">Reparo</option>
+        <option value="consultation">Consultoria</option>
+      </select>
+      
+      <label for="serviceDescription">Descrição do Serviço:</label>
+      <textarea id="serviceDescription" rows="4" required></textarea>
+      
+      <label for="scheduledDate">Data Agendada:</label>
+      <input type="date" id="scheduledDate" required>
+      
+      <label for="technician">Técnico Responsável:</label>
+      <input type="text" id="technician" required>
+      
+      <button type="submit">Criar Ordem de Serviço</button>
+    </form>
+  </div>
+  
+  <div id="listOS" class="content" style="display:none;">
+    <h2>Lista de Ordens de Serviço</h2>
+    <table id="osTable">
+      <thead>
+        <tr>
+          <th>Nº OS</th>
+          <th>Cliente</th>
+          <th>Tipo de Serviço</th>
+          <th>Data Agendada</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Ordens de serviço serão inseridas aqui dinamicamente -->
+      </tbody>
+    </table>
+  </div>
+  
+  <div id="reportOS" class="content" style="display:none;">
+    <h2>Relatórios</h2>
+    <form id="reportForm">
+      <label for="reportType">Tipo de Relatório:</label>
+      <select id="reportType" required>
+        <option value="">Selecione o tipo de relatório</option>
+        <option value="daily">Diário</option>
+        <option value="weekly">Semanal</option>
+        <option value="monthly">Mensal</option>
+      </select>
+      
+      <label for="startDate">Data Inicial:</label>
+      <input type="date" id="startDate" required>
+      
+      <label for="endDate">Data Final:</label>
+      <input type="date" id="endDate" required>
+      
+      <button type="submit">Gerar Relatório</button>
+    </form>
+    <div id="reportResult"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// Simulando um banco de dados local
+let ordersDB = [];
+let orderCounter = 1;
+
+// Navegação
+document.getElementById('navCreate').addEventListener('click', () => showSection('createOS'));
+document.getElementById('navList').addEventListener('click', () => {
+  showSection('listOS');
+  updateOSTable();
+});
+document.getElementById('navReport').addEventListener('click', () => showSection('reportOS'));
+
+function showSection(sectionId) {
+  document.querySelectorAll('.content').forEach(el => el.style.display = 'none');
+  document.getElementById(sectionId).style.display = 'block';
+}
+
+// Criar Ordem de Serviço
+document.getElementById('osForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const newOrder = {
+    id: orderCounter++,
+    clientName: document.getElementById('clientName').value,
+    clientEmail: document.getElementById('clientEmail').value,
+    clientPhone: document.getElementById('clientPhone').value,
+    serviceType: document.getElementById('serviceType').value,
+    serviceDescription: document.getElementById('serviceDescription').value,
+    scheduledDate: document.getElementById('scheduledDate').value,
+    technician: document.getElementById('technician').value,
+    status: 'Pendente'
+  };
+  
+  ordersDB.push(newOrder);
+  alert('Ordem de Serviço criada com sucesso!');
+  this.reset();
+  updateOSTable();
+});
+
+// Atualizar tabela de Ordens de Serviço
+function updateOSTable() {
+  const tableBody = document.querySelector('#osTable tbody');
+  tableBody.innerHTML = '';
+  
+  ordersDB.forEach(order => {
+    const row = tableBody.insertRow();
+    row.innerHTML = `
+      <td>${order.id}</td>
+      <td>${order.clientName}</td>
+      <td>${order.serviceType}</td>
+      <td>${order.scheduledDate}</td>
+      <td>${order.status}</td>
+      <td>
+        <button onclick="viewOrder(${order.id})">Ver</button>
+        <button onclick="editOrder(${order.id})">Editar</button>
+        <button onclick="deleteOrder(${order.id})">Excluir</button>
+      </td>
+    `;
+  });
+}
+
+// Funções de ação para as Ordens de Serviço
+function viewOrder(id) {
+  const order = ordersDB.find(o => o.id === id);
+  alert(`Detalhes da OS ${id}:\n${JSON.stringify(order, null, 2)}`);
+}
+
+function editOrder(id) {
+  const order = ordersDB.find(o => o.id === id);
+  // Aqui você implementaria a lógica para editar a OS
+  alert(`Editando OS ${id}`);
+}
+
+function deleteOrder(id) {
+  if (confirm(`Tem certeza que deseja excluir a OS ${id}?`)) {
+    ordersDB = ordersDB.filter(o => o.id !== id);
+    updateOSTable();
+  }
+}
+
+// Gerar Relatório
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const reportType = document.getElementById('reportType').value;
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  
+  // Aqui você implementaria a lógica real para gerar o relatório
+  const reportData = ordersDB.filter(order => 
+    order.scheduledDate >= startDate && order.scheduledDate <= endDate
+  );
+  
+  const reportHTML = `
+    <h3>Relatório ${reportType}</h3>
+    <p>Período: ${startDate} a ${endDate}</p>
+    <p>Total de Ordens: ${reportData.length}</p>
+    <ul>
+      ${reportData.map(order => `<li>OS ${order.id} - ${order.clientName} (${order.status})</li>`).join('')}
+    </ul>
+  `;
+  
+  document.getElementById('reportResult').innerHTML = reportHTML;
+  
+  // Opção para gerar PDF
+  const generatePDF = confirm("Deseja gerar um PDF deste relatório?");
+  if (generatePDF) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text(reportHTML, 10, 10);
+    doc.save(`relatorio_${reportType}_${startDate}_${endDate}.pdf`);
+  }
+});
+</script>
+</body></html>

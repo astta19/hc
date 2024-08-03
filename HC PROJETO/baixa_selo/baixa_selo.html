@@ -1,0 +1,241 @@
+<html><head><base href="#"><title>Baixa de Selo de Estacionamento e Registro em Planilha</title>
+<style>
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #1e458d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: #333;
+}
+.container {
+  background: #d3d3d3;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+}
+h1, h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+form, .form-group {
+  display: grid;
+  gap: 20px;
+}
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+button:hover {
+  background-color: #2980b9;
+}
+button:active {
+  transform: scale(0.98);
+}
+#seloInfo, #baixaForm {
+  display: none;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+}
+#statusMessage {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+}
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+#exportButton {
+  margin-top: 20px;
+  background-color: #27ae60;
+}
+#exportButton:hover {
+  background-color: #2ecc71;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <center><div class="input-group">
+    <a href="https://ibb.co/R0ssgJB"><img src="https://i.ibb.co/R0ssgJB/fa-a-seu-pedido-1200-x-899-px-2.png" alt="fa-a-seu-pedido-1200-x-899-px-2" border="0"></a>
+  </center>
+  <h1>Baixa de Selo de Estacionamento e Registro</h1>
+  
+  <form id="seloForm">
+    <div class="form-group">
+      <label for="seloNumber">Número do Selo:</label>
+      <input type="text" id="seloNumber" name="seloNumber" required>
+    </div>
+    <div class="form-group">
+      <label for="baixaReason">Motivo da Baixa:</label>
+      <select id="baixaReason" name="baixaReason" required>
+        <option value="">Selecione o motivo</option>
+        <option value="Expirado">Selo Expirado</option>
+        <option value="Cancelado">Cancelamento</option>
+        <option value="Danificado">Selo Danificado</option>
+        <option value="Perdido">Selo Perdido</option>
+        <option value="Troca de Veículo">Troca de Veículo</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="observacoes">Observações:</label>
+      <textarea id="observacoes" name="observacoes" rows="3"></textarea>
+    </div>
+    <center><button type="submit">Dar Baixa e Registrar</button></center>
+  </form>
+  
+  <div id="statusMessage"></div>
+  
+  <div id="registroTable">
+    <h2>Registros de Baixa</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Número do Selo</th>
+          <th>Motivo da Baixa</th>
+          <th>Observações</th>
+          <th>Data da Baixa</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
+  
+  <center><button id="exportButton">Exportar para Excel</button></center>
+</div>
+
+<script>
+let registros = [];
+
+document.getElementById('seloForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const seloNumber = document.getElementById('seloNumber').value;
+  const baixaReason = document.getElementById('baixaReason').value;
+  const observacoes = document.getElementById('observacoes').value;
+  const baixaDate = new Date().toLocaleString();
+  
+  // Simulating the process of giving baixa to the selo
+  const novoRegistro = {
+    seloNumber: seloNumber,
+    baixaReason: baixaReason,
+    observacoes: observacoes,
+    baixaDate: baixaDate
+  };
+  
+  registros.push(novoRegistro);
+  
+  // Update the table
+  updateTable();
+  
+  // Show success message
+  showStatus(`Baixa do selo ${seloNumber} registrada com sucesso.`, 'success');
+  
+  // Clear the form
+  this.reset();
+});
+
+function updateTable() {
+  const tableBody = document.getElementById('tableBody');
+  tableBody.innerHTML = '';
+  
+  registros.forEach(registro => {
+    const row = tableBody.insertRow();
+    row.insertCell(0).textContent = registro.seloNumber;
+    row.insertCell(1).textContent = registro.baixaReason;
+    row.insertCell(2).textContent = registro.observacoes;
+    row.insertCell(3).textContent = registro.baixaDate;
+  });
+}
+
+function showStatus(message, type) {
+  const statusElement = document.getElementById('statusMessage');
+  statusElement.textContent = message;
+  statusElement.className = type;
+}
+
+document.getElementById('exportButton').addEventListener('click', function() {
+  // Create a worksheet
+  const ws = XLSX.utils.json_to_sheet(registros);
+  
+  // Create a workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Registros de Baixa");
+  
+  // Generate xlsx file
+  XLSX.writeFile(wb, "registros_baixa_selo.xlsx");
+  
+  showStatus("Planilha exportada com sucesso!", 'success');
+});
+
+// Initialize the table
+updateTable();
+</script>
+</body></html>

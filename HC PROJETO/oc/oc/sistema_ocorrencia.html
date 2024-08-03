@@ -1,0 +1,325 @@
+<html><head><base href="#"><title>Sistema de Registro de Ocorrências</title>
+<style>
+  :root {
+    --primary-color: #4285f4;
+    --secondary-color: #34a853;
+    --accent-color: #fbbc05;
+    --danger-color: #ea4335;
+    --light-color: #f8f9fa;
+    --dark-color: #202124;
+  }
+
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e458d;
+    color: var(--dark-color);
+  }
+
+  .container {
+    background: #d3d3d3;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  header {
+    background-color: ;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  h1, h2 {
+    margin: 0;
+  }
+
+  .content {
+    background-color: #d3d3d3;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  form {
+    display: grid;
+    gap: 15px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #2e8b57;
+  }
+
+  #status {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .status-success {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+
+  .status-error {
+    background-color: var(--danger-color);
+    color: white;
+  }
+
+  #loadingOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+  <header>
+    
+  </header>
+
+  <div class="container">
+    <center><a href="https://ibb.co/wBQwTCQ"><img src="https://i.ibb.co/wBQwTCQ/fa-a-seu-pedido-1200-x-899-px.png" alt="fa-a-seu-pedido-1200-x-899-px" border="0"></a></center>
+    <h1>Relatório de ocorrências - Supervisão</h1>
+    <div class="content">
+      <center><h2>Relatório</h2></center>
+
+      <label for="posto">Posto:</label>
+
+<select name="posto" id="posto">
+  <option value="selectposto">Selecione o posto:</option>
+  <option value="pt01">POSTO 1 - CENTRO ESPECIALIZADO DE OFTALMOLOGIA E FONO CEOF</option>
+  <option value="pt02">POSTO 2 - ESTACIONAMENTO PRIVATIVO - ENTRADA</option>
+  <option value="pt03">POSTO 3 - ESTACIONAMENTO PRIVATIVO - SAÍDA ALTERNATIVA</option>
+  <option value="pt04">POSTO 4 - ESTACIONAMENTO PRIVATIVO - RONDA</option>
+  <option value="pt05">POSTO 5 - TERMINAL DE ÔNIBUS URBANO, ESTACIONAMENTO 1, ACESSO DE VEÍCULOS AO AMBULATÓRIO</option>
+  <option value="pt06">POSTO 6 - AMBULETÓRIO, EMBARQUE E DESEMBARQUE - ENTRADA</option>
+  <option value="pt07">POSTO 7 - AMBULATÓRIO - SALA DE COLETA</option>
+  <option value="pt08">POSTO 8 - UETDI</option>
+  <option value="pt09">POSTO 9 - TERMINAL DE ÔNIBUS INTERMUNICIPAL</option>
+  <option value="pt10">POSTO 10 - GUARITA 4 E PORTARIA 4</option>
+  <option value="pt11">POSTO 11 - ESTACIONAMENTO 2</option>
+  <option value="pt12">POSTO 12 - PORTARIA PRINCIPAL E ESTACIONAMENTO</option>
+  <option value="pt13">POSTO 13 - RONDAS OSTENSIVAS PROGRAMADAS A PÉ - EXTERNO</option>
+  <option value="pt14">POSTO 14 - RONDAS OSTENSIVAS PROGRAMADAS A PÉ - INTERNO</option>
+  <option value="pt15">POSTO 15 - RONDAS OSTENSIVAS PROGRAMADAS A PÉ - INTERNO</option>
+  <option value="pt16">POSTO 16 - ENFERMARIA DE PSIQUIATRIA</option>
+  <option value="pt17">POSTO 17 - CORREDOR 5 AMBULATÓRIO</option>
+  <option value="pt18">POSTO 18 - CTI ANDAR</option>
+  <option value="pt19">POSTO 19 - SAGUÃO DE MÁRMORE</option>
+  <option value="pt20">POSTO 20 - REFEITÓRIO DE MÉDICOS</option>
+  <option value="pt21">POSTO 21 - RONDA MOTORIZADO</option>
+  <option value="pt22">POSTO 22 - RONDA MOTORIZADO</option>
+  <option value="pt23">POSTO 23 - RONDA MOTORIZADO</option>
+  <option value="pt24">POSTO 24 - HCC 1° ANDAR</option>
+  <option value="pt25">POSTO 25 - HCC CER</option>
+  <option value="pt26">POSTO 26 - HCC 3° ANDAR</option>
+  <option value="pt27">POSTO 27 - HEMOCENTRO</option>
+  <option value="pt28">POSTO 28 - HEMOCENTRO</option>
+  <option value="pt29">POSTO 29 - CANCELA DE SAÍDA</option>
+  <option value="pt30">POSTO 30 - POSTÃO DE SERVIÇO</option>
+  <option value="pt31">POSTO 31 - MONITORAMENTO</option>
+  <option value="pt32">POSTO 32 - MONITORAMENTO</option>
+  <option value="pt33">POSTO 33 - MONITORAMENTO</option>
+  <option value="pt34">POSTO 34 - MONITORAMENTO</option>
+  <option value="pt35">POSTO 35 - SUPERVISOR DO MONITORAMENTO</option>
+  
+</select>
+
+      <form method="post" action="recebe_upload.php" enctype="multipart/form-data">
+        <div>
+          <label for="local">Vigilante:</label>
+          <input type="text" id="local" required>
+        </div>
+        <div>
+          <label for="local">Local:</label>
+          <input type="text" id="local" required>
+        </div>
+        <div>
+          <label for="data">Data:</label>
+          <input type="date" id="data" required>  
+        </div>
+        <div>
+          <label for="hora">Hora:</label>
+          <input type="time" id="hora" required>
+        </div>
+        
+        <div>
+          <label for="tipo">Tipo de Ocorrência:</label>
+          <select id="tipo" required>
+            <option value="">Selecione o tipo</option>
+            <option value="Furto">Furto</option>
+            <option value="Dano ao Patrimônio">Dano ao Patrimônio</option>
+            <option value="Acidente de Trabalho">Acidente de Trabalho</option>
+            <option value="Conflito Interpessoal">Conflito Interpessoal</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div>
+          <label for="descricao">Descrição:</label>
+          <textarea id="descricao" rows="4" required></textarea>
+        </div>
+        <div>
+          <label for="envolvidos">Pessoas Envolvidas:</label>
+          <input type="text" id="envolvidos">
+        </div>
+        <div>
+          <label for="acoes">Ações Tomadas:</label>
+          <textarea id="acoes" rows="3"></textarea>
+        </div>
+        <div>
+          <label for="reportado-por">Reportado por:</label>
+          <input type="text" id="reportado-por" required>
+        </div>
+        <div>
+          <label for="upload">Arquivos da Ocorrência:</label>
+          <input type="file" id="upload" required>
+        </div>
+        <button type="submit">Registrar Ocorrência</button>
+      </form>
+    </div>
+
+    <div id="status" style="display: none;"></div>
+  </div>
+
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    const form = document.getElementById('ocorrencia-form');
+    const statusDiv = document.getElementById('status');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      registrarOcorrencia();
+    });
+
+    function registrarOcorrencia() {
+      loadingOverlay.style.display = 'flex';
+
+      const ocorrencia = {
+        data: document.getElementById('data').value,
+        hora: document.getElementById('hora').value,
+        local: document.getElementById('local').value,
+        tipo: document.getElementById('tipo').value,
+        descricao: document.getElementById('descricao').value,
+        envolvidos: document.getElementById('envolvidos').value,
+        acoes: document.getElementById('acoes').value,
+        reportadoPor: document.getElementById('reportado-por').value
+      };
+
+      // Simula o envio para a planilha do Google
+      setTimeout(() => {
+        enviarParaPlanilha(ocorrencia);
+      }, 2000);
+    }
+
+    function enviarParaPlanilha(ocorrencia) {
+      // Aqui você implementaria a lógica real para enviar os dados para a planilha do Google
+      console.log('Enviando ocorrência para a planilha:', ocorrencia);
+
+      // Simulação de sucesso
+      setTimeout(() => {
+        loadingOverlay.style.display = 'none';
+        mostrarStatus('Ocorrência registrada com sucesso!', 'success');
+        form.reset();
+      }, 1000);
+
+      // Para simular um erro, descomente as linhas abaixo e comente as linhas acima
+      // setTimeout(() => {
+      //   loadingOverlay.style.display = 'none';
+      //   mostrarStatus('Erro ao registrar ocorrência. Tente novamente.', 'error');
+      // }, 1000);
+    }
+
+    function mostrarStatus(mensagem, tipo) {
+      statusDiv.textContent = mensagem;
+      statusDiv.className = tipo === 'success' ? 'status-success' : 'status-error';
+      statusDiv.style.display = 'block';
+
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 5000);
+    }
+
+    // Inicialização da API do Google Sheets
+    function initGoogleSheetsAPI() {
+      gapi.client.init({
+        apiKey: 'YOUR_API_KEY',
+        clientId: 'YOUR_CLIENT_ID',
+        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+        scope: "https://www.googleapis.com/auth/spreadsheets"
+      }).then(function() {
+        console.log('Google Sheets API inicializada');
+      }, function(error) {
+        console.error('Erro ao inicializar Google Sheets API', error);
+      });
+    }
+
+    gapi.load('client', initGoogleSheetsAPI);
+
+    
+
+
+
+    
+  </script>
+</body></html>
+
+<script>
+
+

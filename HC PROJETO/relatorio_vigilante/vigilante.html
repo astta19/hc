@@ -1,0 +1,155 @@
+<html><head><base href="https://websim.io/security-reports/"><title>Sistema de Relatório para Vigilante</title>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e458d;
+    color: #333;
+  }
+  .container {
+    background: #d3d3d3;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .report-form {
+    display: grid;
+    gap: 20px;
+  }
+  label {
+    font-weight: bold;
+    color: #34495e;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #2980b9;
+  }
+  .report-list {
+    margin-top: 40px;
+  }
+  .report-item {
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+  }
+  .report-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .urgency-high {
+    border-left: 5px solid #e74c3c;
+  }
+  .urgency-medium {
+    border-left: 5px solid #f39c12;
+  }
+  .urgency-low {
+    border-left: 5px solid #2ecc71;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <center><a href="https://ibb.co/R0ssgJB"><img src="https://i.ibb.co/R0ssgJB/fa-a-seu-pedido-1200-x-899-px-2.png" alt="fa-a-seu-pedido-1200-x-899-px-2" border="0"></a></center>
+    <h1>Sistema de Relatório para Vigilante</h1>
+    
+    <form class="report-form" id="reportForm">
+      <label for="date">Data e Hora da Ocorrência:</label>
+      <input type="datetime-local" id="date" name="date" required>
+      
+      <label for="location">Local:</label>
+      <input type="text" id="location" name="location" required>
+      
+      <label for="incidentType">Tipo de Incidente:</label>
+      <select id="incidentType" name="incidentType">
+        <option value="intrusao">Intrusão</option>
+        <option value="roubo">Roubo</option>
+        <option value="vandalismo">Vandalismo</option>
+        <option value="incendio">Incêndio</option>
+        <option value="acidente">Acidente</option>
+        <option value="outro">Outro</option>
+      </select>
+      
+      <label for="description">Descrição Detalhada:</label>
+      <textarea id="description" name="description" rows="5" required></textarea>
+      
+      <label for="actionTaken">Ações Tomadas:</label>
+      <textarea id="actionTaken" name="actionTaken" rows="3" required></textarea>
+      
+      <label for="urgency">Nível de Urgência:</label>
+      <select id="urgency" name="urgency">
+        <option value="baixa">Baixa</option>
+        <option value="media">Média</option>
+        <option value="alta">Alta</option>
+      </select>
+      
+      <button type="submit">Enviar Relatório</button>
+    </form>
+    
+    <div class="report-list" id="reportList">
+      <h2>Relatórios Recentes</h2>
+      <!-- Os relatórios serão adicionados aqui dinamicamente -->
+    </div>
+  </div>
+
+  <script>
+    <?php
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('reportForm');
+      const reportList = document.getElementById('reportList');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const date = document.getElementById('date').value;
+        const location = document.getElementById('location').value;
+        const incidentType = document.getElementById('incidentType').value;
+        const description = document.getElementById('description').value;
+        const actionTaken = document.getElementById('actionTaken').value;
+        const urgency = document.getElementById('urgency').value;
+        
+        const reportItem = document.createElement('div');
+        reportItem.className = `report-item urgency-${urgency}`;
+        reportItem.innerHTML = `
+          <h3>${incidentType.charAt(0).toUpperCase() + incidentType.slice(1)} em ${location}</h3>
+          <p><strong>Data e Hora:</strong> ${new Date(date).toLocaleString()}</p>
+          <p><strong>Descrição:</strong> ${description}</p>
+          <p><strong>Ações Tomadas:</strong> ${actionTaken}</p>
+          <p><strong>Urgência:</strong> ${urgency.charAt(0).toUpperCase() + urgency.slice(1)}</p>
+        `;
+        
+        reportList.insertBefore(reportItem, reportList.firstChild);
+        
+        form.reset();
+      });
+    });
+  </script>
+</body></html>
